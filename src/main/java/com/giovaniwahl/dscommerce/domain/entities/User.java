@@ -18,6 +18,7 @@ public class  User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(unique = true)
     private String email;
     private String phone;
     private LocalDate birthDate;
@@ -88,11 +89,11 @@ public class  User implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
-        return Objects.equals(getId(), user.getId());
+        return Objects.equals(getId(), user.getId()) && Objects.equals(getEmail(), user.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(getId(), getEmail());
     }
 }
