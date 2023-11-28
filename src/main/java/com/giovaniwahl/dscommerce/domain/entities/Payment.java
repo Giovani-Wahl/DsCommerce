@@ -56,12 +56,15 @@ public class Payment implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Payment payment)) return false;
-        return Objects.equals(getId(), payment.getId());
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Payment payment = (Payment) o;
+
+        return Objects.equals(id, payment.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return id != null ? id.hashCode() : 0;
     }
 }
