@@ -4,6 +4,8 @@ import com.giovaniwahl.dscommerce.domain.dtos.ProductDTO;
 import com.giovaniwahl.dscommerce.domain.entities.Product;
 import com.giovaniwahl.dscommerce.domain.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +30,8 @@ public class ProductService {
         return null;
     }
     @Transactional(readOnly = true)
-    public List<ProductDTO> findAll(){
-        List<Product> productList = productRepository.findAll();
-        return productList.stream().map(ProductDTO::new).toList();
+    public Page<ProductDTO> findAll(Pageable pageable){
+        Page<Product> productList = productRepository.findAll(pageable);
+        return productList.map(ProductDTO::new);
     }
 }

@@ -3,6 +3,10 @@ package com.giovaniwahl.dscommerce.controllers;
 import com.giovaniwahl.dscommerce.domain.dtos.ProductDTO;
 import com.giovaniwahl.dscommerce.domain.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +28,8 @@ public class ProductController {
         return productService.findById(id);
     }
     @GetMapping
-    public List<ProductDTO> findAll(){
-       return productService.findAll();
+    public Page<ProductDTO> findAll(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)
+                                        Pageable pageable){
+       return productService.findAll(pageable);
     }
 }
