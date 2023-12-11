@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +26,10 @@ public class ProductService {
             return new ProductDTO(product);
         }
         return null;
+    }
+    @Transactional(readOnly = true)
+    public List<ProductDTO> findAll(){
+        List<Product> productList = productRepository.findAll();
+        return productList.stream().map(ProductDTO::new).toList();
     }
 }
