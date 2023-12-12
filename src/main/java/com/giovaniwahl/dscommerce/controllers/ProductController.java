@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,17 +23,16 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductDTO findById(@PathVariable Long id){
-        return productService.findById(id);
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
+       return ResponseEntity.status(HttpStatus.OK).body(productService.findById(id));
     }
     @GetMapping
-    public Page<ProductDTO> findAll(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC)
-                                        Pageable pageable){
-       return productService.findAll(pageable);
+    public ResponseEntity<Page<ProductDTO>> findAll(@PageableDefault(page = 0, size = 10, sort = "id",
+            direction = Sort.Direction.ASC) Pageable pageable){
+       return ResponseEntity.status(HttpStatus.OK).body(productService.findAll(pageable));
     }
     @PostMapping
-    public ProductDTO insert(@RequestBody ProductDTO productDTO){
-       productDTO = productService.insert(productDTO);
-       return productDTO;
+    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO productDTO){
+       return ResponseEntity.status(HttpStatus.CREATED).body(productService.insert(productDTO));
     }
 }
