@@ -1,11 +1,19 @@
 package com.giovaniwahl.dscommerce.domain.dtos;
 
 import com.giovaniwahl.dscommerce.domain.entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class ProductDTO {
     private Long id;
+    @Size(min = 3,max = 80, message = "Nome entre 3 e 8 caracteres.")
+    @NotBlank(message = "Campo Obrigatório.")
     private String name;
+    @Size(min = 10,message = "minimo 10 caracteres.")
+    @NotBlank
     private String description;
+    @Positive(message = "o Valor deve ser positivo.")
     private Double price;
     private String imgUrl;
 

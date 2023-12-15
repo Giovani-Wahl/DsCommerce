@@ -2,6 +2,7 @@ package com.giovaniwahl.dscommerce.controllers;
 
 import com.giovaniwahl.dscommerce.domain.dtos.ProductDTO;
 import com.giovaniwahl.dscommerce.domain.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,11 +33,11 @@ public class ProductController {
        return ResponseEntity.status(HttpStatus.OK).body(productService.findAll(pageable));
     }
     @PostMapping
-    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO productDTO){
+    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO productDTO){
        return ResponseEntity.status(HttpStatus.CREATED).body(productService.insert(productDTO));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO productDTO){
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO){
        return ResponseEntity.status(HttpStatus.OK).body(productService.update(id, productDTO));
     }
     @DeleteMapping("/{id}")
