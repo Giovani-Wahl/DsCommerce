@@ -27,10 +27,17 @@ public class ProductController {
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
        return ResponseEntity.status(HttpStatus.OK).body(productService.findById(id));
     }
-    @GetMapping
+   @GetMapping
     public ResponseEntity<Page<ProductDTO>> findAll(@PageableDefault(page = 0, size = 10, sort = "id",
             direction = Sort.Direction.ASC) Pageable pageable){
        return ResponseEntity.status(HttpStatus.OK).body(productService.findAll(pageable));
+    }
+    /*Busca por nome, descrição do item */
+    @GetMapping("/name")
+    public ResponseEntity<Page<ProductDTO>> searchByName(
+            @RequestParam(name = "name", defaultValue = "") String name,
+            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchByName(name,pageable));
     }
     @PostMapping
     public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO productDTO){
