@@ -32,16 +32,11 @@ public class ProductService {
         return new ProductDTO(product);
     }
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable){
-        Page<Product> productList = productRepository.findAll(pageable);
-        return productList.map(ProductDTO::new);
-    }
-    /*Busca por nome, descrição do item */
-    @Transactional(readOnly = true)
-    public Page<ProductDTO> searchByName(String name, Pageable pageable){
+    public Page<ProductDTO> findAll(String name, Pageable pageable){
         Page<Product> productList = productRepository.searchByName(name, pageable);
         return productList.map(ProductDTO::new);
     }
+
     @Transactional
     public ProductDTO insert(ProductDTO productDTO){
         Product product = new Product();
