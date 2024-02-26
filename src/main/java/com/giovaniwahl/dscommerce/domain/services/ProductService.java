@@ -1,6 +1,7 @@
 package com.giovaniwahl.dscommerce.domain.services;
 
 import com.giovaniwahl.dscommerce.domain.dtos.ProductDTO;
+import com.giovaniwahl.dscommerce.domain.dtos.ProductMinDTO;
 import com.giovaniwahl.dscommerce.domain.entities.Product;
 import com.giovaniwahl.dscommerce.domain.repositories.ProductRepository;
 import com.giovaniwahl.dscommerce.domain.services.exceptions.DatabaseException;
@@ -32,9 +33,9 @@ public class ProductService {
         return new ProductDTO(product);
     }
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable){
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable){
         Page<Product> productList = productRepository.searchByName(name, pageable);
-        return productList.map(ProductDTO::new);
+        return productList.map(ProductMinDTO::new);
     }
 
     @Transactional
