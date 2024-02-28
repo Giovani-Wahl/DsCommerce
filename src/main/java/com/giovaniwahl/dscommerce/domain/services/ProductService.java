@@ -1,7 +1,9 @@
 package com.giovaniwahl.dscommerce.domain.services;
 
+import com.giovaniwahl.dscommerce.domain.dtos.CategoryDTO;
 import com.giovaniwahl.dscommerce.domain.dtos.ProductDTO;
 import com.giovaniwahl.dscommerce.domain.dtos.ProductMinDTO;
+import com.giovaniwahl.dscommerce.domain.entities.Category;
 import com.giovaniwahl.dscommerce.domain.entities.Product;
 import com.giovaniwahl.dscommerce.domain.repositories.ProductRepository;
 import com.giovaniwahl.dscommerce.domain.services.exceptions.DatabaseException;
@@ -75,5 +77,11 @@ public class ProductService {
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setImgUrl(productDTO.getImgUrl());
+        product.getCategories().clear();
+        for (CategoryDTO catDTO : productDTO.getCategories()){
+            Category cat = new Category();
+            cat.setId(catDTO.getId());
+            product.getCategories().add(cat);
+        }
     }
 }
