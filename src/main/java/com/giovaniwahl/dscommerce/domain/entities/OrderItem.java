@@ -22,7 +22,7 @@ public class OrderItem implements Serializable {
     public OrderItem(){
     }
 
-    public OrderItem(Order order,Product product, Integer quantity, Double price) {
+    public OrderItem(Order order, Product product, Integer quantity, Double price) {
         id.setOrder(order);
         id.setProduct(product);
         this.quantity = quantity;
