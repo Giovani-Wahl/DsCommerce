@@ -3,7 +3,6 @@ package com.giovaniwahl.dscommerce.domain.dtos;
 import com.giovaniwahl.dscommerce.domain.entities.Order;
 import com.giovaniwahl.dscommerce.domain.entities.OrderItem;
 import com.giovaniwahl.dscommerce.domain.entities.OrderStatus;
-import jakarta.validation.constraints.NotEmpty;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -15,8 +14,9 @@ public class OrderDTO {
     private OrderStatus status;
 
     private ClientDTO client;
+
     private PaymentDTO payment;
-    @NotEmpty(message = "Must contain at least one item.")
+
     private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO(Long id, Instant moment, OrderStatus status, ClientDTO client, PaymentDTO payment) {
@@ -27,16 +27,17 @@ public class OrderDTO {
         this.payment = payment;
     }
     public OrderDTO(Order entity) {
-        this.id = entity.getId();
-        this.moment = entity.getMoment();
-        this.status = entity.getStatus();
-        this.client = new ClientDTO(entity.getClient());
-        this.payment = (entity.getPayment() == null) ? null : new PaymentDTO(entity.getPayment());
-        for (OrderItem item : entity.getItems()) {
-            OrderItemDTO itemDto = new OrderItemDTO(item);
-            items.add(itemDto);
+        id = entity.getId();
+        moment = entity.getMoment();
+        status = entity.getStatus();
+        client = new ClientDTO(entity.getClient());
+        payment = (entity.getPayment() == null) ? null : new PaymentDTO(entity.getPayment());
+        for (OrderItem item : entity.getItems()){
+            OrderItemDTO itemDTO = new OrderItemDTO(item);
+            items.add(itemDTO);
         }
     }
+
     public Long getId() {
         return id;
     }
@@ -60,10 +61,9 @@ public class OrderDTO {
     public List<OrderItemDTO> getItems() {
         return items;
     }
-
-    public Double getTotal() {
+    public Double getTotal(){
         double sum = 0.0;
-        for (OrderItemDTO item : items) {
+        for (OrderItemDTO item : items){
             sum += item.getSubTotal();
         }
         return sum;

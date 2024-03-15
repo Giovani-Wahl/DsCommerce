@@ -3,25 +3,22 @@ package com.giovaniwahl.dscommerce.domain.dtos;
 import com.giovaniwahl.dscommerce.domain.entities.OrderItem;
 
 public class OrderItemDTO {
-     private Long productId;
-     private String name;
-     private Double price;
-     private Integer quantity;
-     private String imgUrl;
+    private Long productId;
+    private String name;
+    private Double price;
+    private Integer quantity;
 
-    public OrderItemDTO(Long productId, String name, Double price, Integer quantity, String imgUrl) {
+    public OrderItemDTO(Long productId, String name, Double price, Integer quantity) {
         this.productId = productId;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.imgUrl = imgUrl;
     }
     public OrderItemDTO(OrderItem entity) {
         productId = entity.getProduct().getId();
         name = entity.getProduct().getName();
         price = entity.getPrice();
         quantity = entity.getQuantity();
-        imgUrl = entity.getProduct().getImgUrl();
     }
 
     public Long getProductId() {
@@ -52,13 +49,6 @@ public class OrderItemDTO {
         this.quantity = quantity;
     }
     public Double getSubTotal(){
-        return price * quantity;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+        return quantity * price;
     }
 }
