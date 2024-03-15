@@ -30,8 +30,9 @@ public class ProductController {
        return ResponseEntity.status(HttpStatus.OK).body(productService.findById(id));
     }
    @GetMapping
-    public ResponseEntity<Page<ProductMinDTO>> findAll(@RequestParam(name = "name", defaultValue = "") String name,
-                                                           @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+    public ResponseEntity<Page<ProductMinDTO>> findAll(
+            @RequestParam(name = "name", defaultValue = "") String name,
+            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
        return ResponseEntity.status(HttpStatus.OK).body(productService.findAll(name, pageable));
     }
 

@@ -9,14 +9,14 @@ import java.util.List;
 
 public class ProductDTO {
     private Long id;
-    @Size(min = 3,max = 80, message = "Nome entre 3 e 8 caracteres.")
-    @NotBlank(message = "Campo Obrigatório.")
+    @Size(min = 3,max = 80, message = "Name between 3 and 8 characters.")
+    @NotBlank(message = "Required field.")
     private String name;
-    @Size(min = 10,message = "minimo 10 caracteres.")
+    @Size(min = 10,message = "Minimum 10 characters.")
     @NotBlank
     private String description;
     @NotNull(message = "Required field.")
-    @Positive(message = "o Valor deve ser positivo.")
+    @Positive(message = "The Value must be positive.")
     private Double price;
     private String imgUrl;
     @NotEmpty(message = "Must contain one or more categories.")

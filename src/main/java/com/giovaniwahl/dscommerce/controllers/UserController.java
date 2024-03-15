@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_CLIENT')")
-    @GetMapping("/me")
+    @GetMapping("/userlog")
     public ResponseEntity<UserDTO> getUserLogged(){
         return ResponseEntity.status(HttpStatus.OK).body(service.getUserLogged());
     }
