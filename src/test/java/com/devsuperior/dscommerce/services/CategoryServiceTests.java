@@ -28,7 +28,7 @@ public class CategoryServiceTests {
 
     @BeforeEach
     void setUp()throws Exception{
-        category = CategoryFactory.createdCategory();
+        category = CategoryFactory.createCategory();
         categoryList = new ArrayList<>();
         categoryList.add(category);
 
