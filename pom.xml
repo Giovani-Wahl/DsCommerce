@@ -77,6 +77,16 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.12</version>
+				<configuration>
+					<excludes>
+						<exclude>/com/devsuperior/dscommerce/DscommerceApplication.class</exclude>
+						<exclude>/com/devsuperior/dscommerce/config/**</exclude>
+						<exclude>/com/devsuperior/dscommerce/entities/**</exclude>
+						<exclude>/com/devsuperior/dscommerce/dto/**</exclude>
+						<exclude>/com/devsuperior/dscommerce/controllers/handlers/**</exclude>
+						<exclude>/com/devsuperior/dscommerce/services/exceptions/**</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>jacoco-agent</id>
