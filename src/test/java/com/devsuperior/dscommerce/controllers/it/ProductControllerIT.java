@@ -226,4 +226,12 @@ public class ProductControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isBadRequest());
     }
+    @Test
+    public void deleteShouldReturnForbiddenWhenClientLogged() throws Exception{
+        ResultActions result =
+                mockMvc.perform(delete("/products/{id}", existingProductId)
+                        .header("Authorization", "Bearer " + clientToken)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isForbidden());
+    }
 }
