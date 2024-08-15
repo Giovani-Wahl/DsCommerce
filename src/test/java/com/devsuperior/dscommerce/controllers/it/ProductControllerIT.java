@@ -218,4 +218,12 @@ public class ProductControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isNotFound());
     }
+    @Test
+    public void deleteShouldReturnBabRequestWhenIdDependentAndAdminLogged() throws Exception{
+        ResultActions result =
+                mockMvc.perform(delete("/products/{id}", dependentProductId)
+                        .header("Authorization", "Bearer " + adminToken)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isBadRequest());
+    }
 }
