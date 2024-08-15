@@ -42,4 +42,16 @@ public class ProductControllerIT {
         result.andExpect(jsonPath("$.content[0].price").isNotEmpty());
         result.andExpect(jsonPath("$.content[0].imgUrl").isNotEmpty());
     }
+    @Test
+    public void findAllShouldReturnPageWhenNameParamIsEmpty()throws Exception{
+        ResultActions result =
+                mockMvc.perform(get("/products")
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.content[0].id").isNotEmpty());
+        result.andExpect(jsonPath("$.content[0].id").value(1L));
+        result.andExpect(jsonPath("$.content[0].name").isNotEmpty());
+        result.andExpect(jsonPath("$.content[0].price").isNotEmpty());
+        result.andExpect(jsonPath("$.content[0].imgUrl").isNotEmpty());
+    }
 }
