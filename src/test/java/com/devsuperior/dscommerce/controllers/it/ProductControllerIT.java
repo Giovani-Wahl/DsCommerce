@@ -187,4 +187,15 @@ public class ProductControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isForbidden());
     }
+    @Test
+    public void insertShouldReturnUnauthorizedWhenInvalidToken() throws Exception{
+        String jsonBody = objectMapper.writeValueAsString(productDTO);
+        ResultActions result =
+                mockMvc.perform(post("/products")
+                        .header("Authorization", "Bearer " + invalidToken)
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isUnauthorized());
+    }
 }
