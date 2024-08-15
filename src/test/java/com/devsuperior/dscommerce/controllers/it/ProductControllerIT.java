@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -36,7 +37,7 @@ public class ProductControllerIT {
 
     private String clientUserName,clientPassword,adminUserName,adminPassword;
     private String adminToken,clientToken,invalidToken;
-    private Long existingProductId, nonExistingProductId,dependentProductId;
+    private Long existingProductId,nonExistingProductId,dependentProductId;
     private String productName;
     private Product product;
     private ProductDTO productDTO;
@@ -219,6 +220,7 @@ public class ProductControllerIT {
         result.andExpect(status().isNotFound());
     }
     @Test
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void deleteShouldReturnBabRequestWhenIdDependentAndAdminLogged() throws Exception{
         ResultActions result =
                 mockMvc.perform(delete("/products/{id}", dependentProductId)
