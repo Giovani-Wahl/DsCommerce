@@ -36,7 +36,7 @@ public class ProductControllerIT {
 
     private String clientUserName,clientPassword,adminUserName,adminPassword;
     private String adminToken,clientToken,invalidToken;
-    private Long existingProductId,noExistingProductId,dependentProductId;
+    private Long existingProductId, nonExistingProductId,dependentProductId;
     private String productName;
     private Product product;
     private ProductDTO productDTO;
@@ -53,7 +53,7 @@ public class ProductControllerIT {
         invalidToken = adminToken +"invalid";
 
         existingProductId = 2L;
-        noExistingProductId = 100L;
+        nonExistingProductId = 100L;
         dependentProductId = 3L;
 
         Category category = new Category(2L,"Categoria Teste");
@@ -209,5 +209,13 @@ public class ProductControllerIT {
                         .header("Authorization", "Bearer " + adminToken)
                         .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isNoContent());
+    }
+    @Test
+    public void deleteShouldReturnNotFoundWhenIdDoesNotExistsAndAdminLogged() throws Exception{
+        ResultActions result =
+                mockMvc.perform(delete("/products/{id}", nonExistingProductId)
+                        .header("Authorization", "Bearer " + adminToken)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isNotFound());
     }
 }
