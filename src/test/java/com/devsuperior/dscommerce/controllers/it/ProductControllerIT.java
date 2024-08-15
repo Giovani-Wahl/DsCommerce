@@ -234,4 +234,12 @@ public class ProductControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isForbidden());
     }
+    @Test
+    public void deleteShouldReturnUnauthorizedWhenInvalidToken() throws Exception{
+        ResultActions result =
+                mockMvc.perform(delete("/products/{id}", existingProductId)
+                        .header("Authorization", "Bearer " + invalidToken)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isUnauthorized());
+    }
 }
