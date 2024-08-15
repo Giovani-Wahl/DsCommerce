@@ -1,8 +1,7 @@
 package com.devsuperior.dscommerce.controllers.it;
 
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,6 +36,7 @@ public class ProductControllerIT {
 
     private String clientUserName,clientPassword,adminUserName,adminPassword;
     private String adminToken,clientToken,invalidToken;
+    private Long existingProductId,noExistingProductId,dependentProductId;
     private String productName;
     private Product product;
     private ProductDTO productDTO;
@@ -51,6 +51,10 @@ public class ProductControllerIT {
         adminToken = tokenUtil.obtainAccessToken(mockMvc,adminUserName,adminPassword);
         clientToken = tokenUtil.obtainAccessToken(mockMvc,clientUserName,clientPassword);
         invalidToken = adminToken +"invalid";
+
+        existingProductId = 2L;
+        noExistingProductId = 100L;
+        dependentProductId = 3L;
 
         Category category = new Category(2L,"Categoria Teste");
         product = new Product(null,"PS5 Pro","descrição do item cadastrado",3999.90,
@@ -197,5 +201,13 @@ public class ProductControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isUnauthorized());
+    }
+    @Test
+    public void deleteShouldReturnNoContentWhenIdExistsAndAdminLogged() throws Exception{
+        ResultActions result =
+                mockMvc.perform(delete("/products/{id}",existingProductId)
+                        .header("Authorization", "Bearer " + adminToken)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isNoContent());
     }
 }
