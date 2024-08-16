@@ -82,6 +82,7 @@ public class OrderControllerIT {
         result.andExpect(jsonPath("$.id").isNotEmpty());
         result.andExpect(jsonPath("$.moment").isNotEmpty());
         result.andExpect(jsonPath("$.status").isNotEmpty());
+        result.andExpect(jsonPath("$.status").value("PAID"));
         result.andExpect(jsonPath("$.client").exists());
         result.andExpect(jsonPath("$.payment").exists());
         result.andExpect(jsonPath("$.items").exists());
@@ -97,6 +98,7 @@ public class OrderControllerIT {
         result.andExpect(jsonPath("$.id").isNotEmpty());
         result.andExpect(jsonPath("$.moment").isNotEmpty());
         result.andExpect(jsonPath("$.status").isNotEmpty());
+        result.andExpect(jsonPath("$.status").value("PAID"));
         result.andExpect(jsonPath("$.client").exists());
         result.andExpect(jsonPath("$.payment").exists());
         result.andExpect(jsonPath("$.items").exists());
