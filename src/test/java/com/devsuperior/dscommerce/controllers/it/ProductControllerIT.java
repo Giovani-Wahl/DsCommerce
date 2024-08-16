@@ -321,6 +321,17 @@ public class ProductControllerIT {
                         .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isUnprocessableEntity());
     }
+    @Test
+    public void updateShouldReturnForbiddenWhenIdExistsAndClientLogged() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(productDTO);
+        ResultActions result =
+                mockMvc.perform(put("/products/{id}", existingProductId)
+                        .header("Authorization", "Bearer " + clientToken)
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isForbidden());
+    }
 
 
 
