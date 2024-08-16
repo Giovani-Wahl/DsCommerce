@@ -93,6 +93,20 @@ public class ProductControllerIT {
         result.andExpect(jsonPath("$.content[0].imgUrl").isNotEmpty());
     }
     @Test
+    public void findByIdShouldReturnProductDTOWhenIdExists() throws Exception {
+        ResultActions result =
+                mockMvc.perform(get("/products/{id}", existingProductId)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.id").isNotEmpty());
+        result.andExpect(jsonPath("$.name").isNotEmpty());
+        result.andExpect(jsonPath("$.description").exists());
+        result.andExpect(jsonPath("$.price").exists());
+        result.andExpect(jsonPath("$.categories").exists());
+    }
+
+
+    @Test
     public void insertShouldReturnProductDtoWhenAdminLogged() throws Exception{
         String jsonBody = objectMapper.writeValueAsString(productDTO);
         ResultActions result =
