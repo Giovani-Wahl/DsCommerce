@@ -223,6 +223,27 @@ public class ProductControllerIT {
         result.andExpect(status().isUnauthorized());
     }
     @Test
+    public void updateShouldReturnProductDTOWhenIdExistsAndAdminLogged() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(productDTO);
+        ResultActions result =
+                mockMvc.perform(put("/products/{id}", existingProductId)
+                        .header("Authorization", "Bearer " + adminToken)
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.id").isNotEmpty());
+        result.andExpect(jsonPath("$.name").isNotEmpty());
+        result.andExpect(jsonPath("$.description").exists());
+        result.andExpect(jsonPath("$.price").exists());
+        result.andExpect(jsonPath("$.categories").exists());
+        result.andExpect(jsonPath("$.imgUrl").exists());
+        result.andExpect(jsonPath("$.categories[0].id").isNotEmpty());
+    }
+
+
+
+    @Test
     public void deleteShouldReturnNoContentWhenIdExistsAndAdminLogged() throws Exception{
         ResultActions result =
                 mockMvc.perform(delete("/products/{id}",existingProductId)
