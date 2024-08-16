@@ -41,7 +41,7 @@ public class OrderControllerIT {
 
     private String clientUserName,clientPassword,adminUserName,adminPassword;
     private String adminToken,clientToken,invalidToken;
-    private Long existingOrderId,nonExistingOrderId;
+    private Long existingOrderId,nonExistingOrderId,otherOrderId;
 
     private User user;
     private Order order;
@@ -69,6 +69,7 @@ public class OrderControllerIT {
 
         existingOrderId = 1L;
         nonExistingOrderId = 1000L;
+        otherOrderId = 2L;
 
     }
 
@@ -101,5 +102,14 @@ public class OrderControllerIT {
         result.andExpect(jsonPath("$.client").exists());
         result.andExpect(jsonPath("$.payment").exists());
         result.andExpect(jsonPath("$.items").exists());
+    }
+    @Test
+    public void findByIdShouldReturnForbiddenWhenIdExistsAndOtherClientLogged() throws Exception {
+        ResultActions result =
+                mockMvc.perform(get("/orders/{id}", otherOrderId)
+                                .header("Authorization", "Bearer " + clientToken)
+                                .accept(MediaType.APPLICATION_JSON))
+                        .andDo(MockMvcResultHandlers.print());
+       result.andExpect(status().isForbidden());
     }
 }
