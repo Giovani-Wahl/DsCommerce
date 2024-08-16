@@ -177,9 +177,7 @@ public class OrderControllerIT {
     }
     @Test
     public void insertShouldReturnForbiddenWhenAdminLogged() throws Exception {
-
         String jsonBody = objectMapper.writeValueAsString(orderDTO);
-
         ResultActions result =
                 mockMvc.perform(post("/orders")
                         .header("Authorization", "Bearer " + adminOnlyToken)
@@ -187,5 +185,16 @@ public class OrderControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isForbidden());
+    }
+    @Test
+    public void insertShouldReturnUnauthorizedWhenInvalidToken() throws Exception {
+        String jsonBody = objectMapper.writeValueAsString(orderDTO);
+        ResultActions result =
+                mockMvc.perform(post("/orders")
+                        .header("Authorization", "Bearer " + invalidToken)
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isUnauthorized());
     }
 }
