@@ -159,4 +159,17 @@ public class OrderControllerIT {
         result.andExpect(jsonPath("$.items").exists());
         result.andExpect(jsonPath("$.total").exists());
     }
+    @Test
+    public void insertShouldReturnUnprocessableEntityWhenClientLoggedAndOrderHasNoItem() throws Exception{
+        orderDTO.getItems().clear();
+        String jsonBody = objectMapper.writeValueAsString(orderDTO);
+        ResultActions result =
+                mockMvc.perform(post("/orders")
+                                .header("Authorization", "Bearer " + clientToken)
+                                .content(jsonBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
+                        .andDo(MockMvcResultHandlers.print());
+        result.andExpect(status().isUnprocessableEntity());
+    }
 }
