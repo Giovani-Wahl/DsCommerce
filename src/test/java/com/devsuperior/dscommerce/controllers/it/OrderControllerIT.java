@@ -77,7 +77,23 @@ public class OrderControllerIT {
         ResultActions result =
                 mockMvc.perform(get("/orders/{id}", existingOrderId)
                         .header("Authorization", "Bearer " + adminToken)
-                        .accept(MediaType.APPLICATION_JSON));
+                        .accept(MediaType.APPLICATION_JSON))
+                        .andDo(MockMvcResultHandlers.print());
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.id").isNotEmpty());
+        result.andExpect(jsonPath("$.moment").isNotEmpty());
+        result.andExpect(jsonPath("$.status").isNotEmpty());
+        result.andExpect(jsonPath("$.client").exists());
+        result.andExpect(jsonPath("$.payment").exists());
+        result.andExpect(jsonPath("$.items").exists());
+    }
+    @Test
+    public void findByIdShouldReturnOrderDtoWhenIdExistsAndClientLogged() throws Exception {
+        ResultActions result =
+                mockMvc.perform(get("/orders/{id}", existingOrderId)
+                                .header("Authorization", "Bearer " + clientToken)
+                                .accept(MediaType.APPLICATION_JSON))
+                        .andDo(MockMvcResultHandlers.print());
         result.andExpect(status().isOk());
         result.andExpect(jsonPath("$.id").isNotEmpty());
         result.andExpect(jsonPath("$.moment").isNotEmpty());
