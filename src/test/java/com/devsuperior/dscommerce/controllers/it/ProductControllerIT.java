@@ -104,8 +104,13 @@ public class ProductControllerIT {
         result.andExpect(jsonPath("$.price").exists());
         result.andExpect(jsonPath("$.categories").exists());
     }
-
-
+    @Test
+    public void findByIdShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
+        ResultActions result =
+                mockMvc.perform(get("/products/{id}", nonExistingProductId)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isNotFound());
+    }
     @Test
     public void insertShouldReturnProductDtoWhenAdminLogged() throws Exception{
         String jsonBody = objectMapper.writeValueAsString(productDTO);
