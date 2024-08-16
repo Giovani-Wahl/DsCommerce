@@ -2,7 +2,6 @@ package com.devsuperior.dscommerce.controllers.it;
 
 
 import com.devsuperior.dscommerce.dto.OrderDTO;
-import com.devsuperior.dscommerce.dto.ProductDTO;
 import com.devsuperior.dscommerce.entities.*;
 import com.devsuperior.dscommerce.services.tests.ProductFactory;
 import com.devsuperior.dscommerce.services.tests.UserFactory;
@@ -17,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
@@ -111,5 +109,23 @@ public class OrderControllerIT {
                                 .accept(MediaType.APPLICATION_JSON))
                         .andDo(MockMvcResultHandlers.print());
        result.andExpect(status().isForbidden());
+    }
+    @Test
+    public void findByIdShouldReturnNotFoundWhenIdDoesNotExistsAndAdminLogged() throws Exception {
+        ResultActions result =
+                mockMvc.perform(get("/orders/{id}", nonExistingOrderId)
+                                .header("Authorization", "Bearer " + adminToken)
+                                .accept(MediaType.APPLICATION_JSON))
+                        .andDo(MockMvcResultHandlers.print());
+        result.andExpect(status().isNotFound());
+    }
+    @Test
+    public void findByIdShouldReturnNotFoundWhenIdDoesNotExistsAndClientLogged() throws Exception {
+        ResultActions result =
+                mockMvc.perform(get("/orders/{id}", nonExistingOrderId)
+                                .header("Authorization", "Bearer " + clientToken)
+                                .accept(MediaType.APPLICATION_JSON))
+                        .andDo(MockMvcResultHandlers.print());
+        result.andExpect(status().isNotFound());
     }
 }
