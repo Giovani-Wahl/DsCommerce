@@ -65,6 +65,8 @@ public class OrderControllerIT {
         orderItem = new OrderItem(order,product,2,10.0);
         order.getItems().add(orderItem);
 
+        orderDTO = new OrderDTO(order);
+
         existingOrderId = 1L;
         nonExistingOrderId = 1000L;
         otherOrderId = 2L;
@@ -138,5 +140,23 @@ public class OrderControllerIT {
                                 .accept(MediaType.APPLICATION_JSON))
                         .andDo(MockMvcResultHandlers.print());
         result.andExpect(status().isUnauthorized());
+    }
+    @Test
+    public void insertShouldReturnOrderDTOCreatedWhenClientLogged() throws Exception{
+        String jsonBody = objectMapper.writeValueAsString(orderDTO);
+        ResultActions result =
+                mockMvc.perform(post("/orders")
+                        .header("Authorization", "Bearer " + clientToken)
+                                .content(jsonBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
+                                .andDo(MockMvcResultHandlers.print());
+        result.andExpect(status().isCreated());
+        result.andExpect(jsonPath("$.id").isNotEmpty());
+        result.andExpect(jsonPath("$.moment").exists());
+        result.andExpect(jsonPath("$.status").value("WAITING_PAYMENT"));
+        result.andExpect(jsonPath("$.client").exists());
+        result.andExpect(jsonPath("$.items").exists());
+        result.andExpect(jsonPath("$.total").exists());
     }
 }
